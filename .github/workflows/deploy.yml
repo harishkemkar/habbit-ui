@@ -24,6 +24,13 @@ jobs:
 
     - name: Build, tag, and push Docker image
       run: |
-        IMAGE_URI=${{ secrets.ECR_REPOSITORY }}:ui-${{ github.sha }}
-        docker build -t $IMAGE_URI .
-        docker push $IMAGE_URI
+    IMAGE_URI=${{ secrets.ECR_REPOSITORY }}
+
+    docker build \
+      -t $IMAGE_URI:latest \
+      -t $IMAGE_URI:ui-${{ github.sha }} .
+
+    docker push $IMAGE_URI:latest
+    docker push $IMAGE_URI:ui-${{ github.sha }}
+
+
